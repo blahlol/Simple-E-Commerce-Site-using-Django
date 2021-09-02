@@ -1,0 +1,73 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>Welcome to Slay!</title>
+    <style>
+        body {
+            font-family: monospace;
+            font-size: large;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button.links {
+            color: red;
+            background-color: white;
+            margin: auto;
+            width: 30%;
+            font-family: monospace;
+            border: none;
+            transform: scale(1, 1);
+            transition: transfrom 2s;
+
+        }
+
+        button.links:hover {
+            transform: scale(1, 1.1);
+        }
+
+        body {
+            background-image: url('../../static/banner.png');
+            background-repeat: no-repeat;
+            background-position: center
+        }
+    </style>
+
+</head>
+
+<body>
+    {% if messages %}
+    {% for message in messages %}
+    <p class="alert alert-primary" role="alert">{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+
+    <div class="container-fluid">
+        <div style="height: 550px;"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-4 offset-4">
+                    {% for category in object_list %}
+                    <a class="links m-3" href="{% url 'store:categories' category %}">
+                        <button class="links m-2 p-2 text-center rounded-pill"> <img height="50px" width="50px"
+                                src="../../../static/logos/{{category}}-100.png" alt=""><b>{{category}} </b> </button>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div style="height: 115px;"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+</body>

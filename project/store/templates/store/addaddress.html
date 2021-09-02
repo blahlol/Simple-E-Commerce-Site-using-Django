@@ -1,0 +1,9 @@
+<form action="{% url 'store:addaddress' %}" method="POST">
+    {% csrf_token %}
+    Street & Building: <input type="text" name="street_building" id="street_building">
+    Area / Locality: <input type="text" name="area" id="area">
+    City: <input type="text" name="city" id="city">
+    Phone: <input type="text" name="phone" id="phone">
+    Zip Code: <input type="text" name="pin" id="pin">
+    <input type="submit" name="submit" value="Add"> 
+</form>

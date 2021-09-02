@@ -1,0 +1,94 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block style %}
+<style>
+    body {
+        background-color: rgb(245, 245, 245);
+    }
+
+    .button {
+        border-color: #0d6efd;
+        color: #0d6efd;
+        background-color: white;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .card-header {
+        background-color: #0d6efd;
+        color: white;
+    }
+</style>
+{% endblock %}
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        {% if messages %}
+        {% for message in messages %}
+        <span class="alert alert-primary p-2">{{ message }}</span> <br> <br>
+        {% endfor %}
+        {% endif %}
+
+        <div class="offset-1 col-7">
+            {% if render %}
+            <form action="{% url 'store:checkout' %}" method="POST" name="checkout_form" id="checkout_form">
+                {% csrf_token %}
+
+                <div class="card">
+                    <div class="card-header">
+                        Choose Delivery Address
+                    </div>
+                    <div class="card-body">
+                        {% for address in addresses %}
+                        <input type="radio" name="address" value="{{address.id}}" checked>
+                        <b> {{address.name}} </b>: {{address.phone}} <br> <br>
+                        <p class="pb-3 border-bottom"> {{address.street_building}}, {{address.area}}, {{address.city}}
+                        </p>
+                        {% endfor %}
+                        <button class="btn button rounded-0"> <a href="{% url 'store:addaddress' %}">Add New Address</a>
+                        </button>
+                        <br>
+                    </div>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="card-header">
+                        Payment Options
+                    </div>
+                    <div class="card-body">
+                        <input type="radio" name='pay_method' value='COD' required> Cash / Card on Delivery <br>
+                    </div>
+                </div>
+        </div>
+        <div class="col-3">
+            <div class="card rounded-0">
+                <div class="card-header">
+                    Details
+                </div>
+                <div class="card-body">
+                    {% for item in cart_items %}
+                    <div class="item">
+                        <span> {{item.product.name}} </span> <br>
+                        <small>
+                            <b> Quantity:</b> {{item.quantity}}
+                            <b>Price:</b> {{item.product.price}}
+                        </small>
+                    </div> <br>
+                    {% endfor %}
+                    <p> <b>Total Payable Amount </b> {{bill_amount}} </p>
+                    <div class="text-center"> <input style="width: 96%;" class="btn btn-success rounded-0" type="submit"
+                            value="Place Order" id="submit">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </form>
+    {% endif %}
+</div>
+</div>
+{% endblock %}

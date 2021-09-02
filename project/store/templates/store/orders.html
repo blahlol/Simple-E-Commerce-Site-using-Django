@@ -1,0 +1,49 @@
+{% extends 'store/base.html' %}
+{% block style %}
+<style>
+    .card-header {
+        background-color: #0d6efd;
+        color: white;
+    }
+    a{
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+{% block body %}
+<div class="container">
+{% if messages %}
+{% for message in messages %}
+<span class="alert alert-primary p-2">{{ message }}</span> <br> <br>
+{% endfor %}
+{% endif %}
+
+<div class="mt-5 row text-center card-header">
+    <div class="offset-1 col-2">Item</div>
+    <div class="col-4">Description</div>
+    <div class="col-2">Price</div>
+    <div class="col-2">Status</div>
+</div>
+
+{% for order in orders %}
+<div class="row text-center border p-3">
+    <div class="offset-1 col-2">
+        <img src="{{order.cart.cartitem_set.first.product.productimages_set.first.image.url}}" alt="" class="m-0 p-0 img-thumbnail"
+        style="height: 130px; width: 130px;">
+        <p> {{order.cart.cartitem_set.all|length}} Products </p>
+    </div>
+    <div class="col-4">
+        <p> Date: {{order.date}} </p>
+        <p>Order ID: {{order.id}} </p>
+        <p><a href="{% url 'store:orderdetail' order.id %}">View order details</a></p>
+
+    </div>
+    <div class="col-2">INR {{order.bill_amount}}</div>
+    <div class="col-2">{{order.status|title}} <br> <br>
+    {% if order.status != 'delivered' and order.status != 'cancelled' %} 
+    <a href="{% url 'store:cancelorder' order.id %}"> <button class="btn btn-danger">Cancel Order </button></a> <br>
+ {% endif %} </div><br>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

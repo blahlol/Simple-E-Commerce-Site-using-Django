@@ -1,0 +1,14 @@
+{% if messages %}
+    {% for message in messages %}
+    <p {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+<a href="{% url 'store:addaddress' %}"> <button> Add New Address </button> </a>
+{% for address in addresses %}
+    <p>Street / Building: {{address.street_building}}</p>
+    <p>Locality: {{address.area}}</p>
+    <p>City: {{address.city}}</p>
+    <p>Zip Code: {{address.pin}}</p>
+    <p>Phone: {{address.phone}}</p>
+    <a href="{% url 'store:deleteaddress' address.id %}"> <button>Delete Address</button></a>
+{% endfor %}

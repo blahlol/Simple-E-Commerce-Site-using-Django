@@ -1,0 +1,82 @@
+{% extends 'store/base.html' %}
+{% load custom_filters %}
+{% block style %}
+<style>
+    a {
+        text-decoration: none;
+    }
+
+    button a {
+        color: white;
+    }
+
+    button a:hover {
+        color: white;
+    }
+
+    .card-header {
+        background-color: #0d6efd;
+        color: white;
+    }
+</style>
+{% endblock %}
+{% block body %}
+<div class="container">
+    {% if messages %}
+    {% for message in messages %}
+    <span class="alert alert-primary p-2">{{ message }}</span> <br> <br>
+    {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="offset-3 ps-0 pe-0 col-3 border">
+            <p class="card-header">Delivery Address</p>
+            <br>
+            <div class="ps-2">
+                <p>{{order.address.name}}</p>
+                <p>{{order.address.street_building}}, {{order.address.area}} <br> {{order.address.city}}</p>
+                <p> <b> Phone Number:</b> {{order.address.phone}}</p>
+            </div>
+        </div>
+        <div class="pe-0 ps-0 col-3 border">
+            <p class="card-header">Order details</p>
+            <br>
+            <div class="ps-2">
+                <p> <b> Order ID: </b>{{order.id}}</p>
+                <p> <b> Bill_amount: </b> {{order.bill_amount}}<br> <b> Order Date: </b>{{order.date}}</p>
+                <p> <b> Order Status:</b> {{order.status}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="mt-5 row text-center card-header">
+        <div class="offset-1 col-2">Item</div>
+        <div class="col-2">Description</div>
+        <div class="col-2">Price</div>
+        <div class="col-2">Quantity</div>
+        <div class="col-2">Total Price</div>
+    </div>
+    {% for item in order.cart.cartitem_set.all %}
+    <div class="row text-center p-3 border">
+
+        <div class="offset-1 col-2">
+            <img src="{{item.product.productimages_set.first.image.url}}" alt="" class="m-0 p-0 img-thumbnail"
+                style="height: 130px; width: 130px;">
+        </div>
+        <div class="col-2">
+            {{item.product.name}} <br>
+            Size: {{item.size|upper}}
+            <br>
+        </div>
+        <div class="col-2">
+            {{item.ordered_price}}
+        </div>
+        <div class="col-2">
+            {{ item.quantity }}
+        </div>
+        <div class="col-2">
+            {{ item.ordered_price|multiply:item.quantity }}
+        </div>
+
+    </div> <br>
+    {% endfor %}
+    <br>
+    {% endblock %}

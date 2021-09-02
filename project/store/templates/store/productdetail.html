@@ -1,0 +1,71 @@
+{% extends 'store/base.html' %}
+{% block style %}
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+{% block body %}
+
+<div class="container">
+    {% if messages %}
+    <div class="row">
+    {% for message in messages %}
+    <div class="offset-2 col-8 alert alert-primary">{{ message }}</div>
+    {% endfor %}
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-lg-4 offset-2">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in object.productimages_set.all %}
+                    <div class="carousel-item {% if forloop.counter0 == 0 %} active {% endif %}">
+                        <img src="{{image.image.url}}" class="d-block w-100" style="height: 500px; max-width: 100%;">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="introduction border-bottom">
+               <h5> {{object.name}} </h5>
+                <h6> MRP: {{object.price}} </h6> <br>
+            </div>
+
+            <div class="addtocart border-bottom mt-2">
+                
+                <h4>Add to Cart</h4>
+                <small>Choose Size</small> <br>
+                {% for size, quantity in object.size_inventory.items %}
+
+                <a href="{% if quantity %} {% url 'store:addtocart' object.id size %} {% endif %}"> <button {% if not quantity %} disabled {% endif %}class="btn btn-success rounded-circle ">{{size|upper}}</button> </a>
+
+                {% endfor %}
+            <br> <br>  
+            </div>
+
+            <div class="description">
+
+                <ul>
+                    {% for key, value in object.description.items %}
+                    <li>{{key}}: {{value}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+
+        </div>
+
+{% endblock %}
